@@ -22,7 +22,7 @@ const COMPETITIONS = {
     shortTitle: '단어 대회',
     // Google Apps Script Web App URL — 배포 후 입력
     sheetsEndpoint: '',
-    fee: 85000, // 추후 수정
+    fee: 90000, // 추후 수정
     bank: {
       name: '신한은행',
       account: '000-000-000000', // 추후 수정
