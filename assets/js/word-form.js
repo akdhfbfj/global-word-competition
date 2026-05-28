@@ -201,14 +201,14 @@ function initHomeCards() {
   const sched = comp.schedule;
 
   const regEl = $('#card-registration');
-  const prelimEl = $('#card-preliminary');
+  const competitionEl = $('#card-competition');
   const feeEl = $('#card-fee');
 
   if (regEl) {
     regEl.textContent = `${formatDate(sched.registrationStart)} ~ ${formatDate(sched.registrationEnd)}`;
   }
-  if (prelimEl) {
-    prelimEl.textContent = formatDate(sched.preliminary);
+  if (competitionEl) {
+    competitionEl.textContent = formatDateShort(sched.competitionDate);
   }
   if (feeEl) {
     feeEl.textContent = formatCurrency(comp.fee);
@@ -233,9 +233,7 @@ function initAboutSchedule() {
   const s = COMPETITIONS.word.schedule;
   const rows = [
     ['접수', `${formatDate(s.registrationStart)} ~ ${formatDate(s.registrationEnd)}`],
-    ['예선', formatDate(s.preliminary)],
-    ['본선', formatDate(s.final)],
-    ['시상', formatDate(s.awards)],
+    ['대회', formatDateShort(s.competitionDate)],
   ];
 
   tbody.innerHTML = rows

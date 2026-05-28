@@ -20,6 +20,13 @@ function formatDate(dateStr) {
   return `${y}년 ${parseInt(m)}월 ${parseInt(d)}일`;
 }
 
+function formatDateShort(dateStr) {
+  if (!dateStr) return '미정';
+  const d = new Date(dateStr + 'T00:00:00');
+  const days = ['일', '월', '화', '수', '목', '금', '토'];
+  return `${d.getMonth() + 1}/${d.getDate()}(${days[d.getDay()]})`;
+}
+
 function populateDivisions(selectEl) {
   if (!selectEl) return;
   const divisions = COMPETITIONS.word.divisions;

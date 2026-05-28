@@ -38,9 +38,7 @@ const COMPETITIONS = {
     schedule: {
       registrationStart: '2026-06-01',
       registrationEnd: '2026-07-31',
-      preliminary: '2026-08-15',
-      final: '2026-09-01',
-      awards: '2026-09-15',
+      competitionDate: '2026-08-22', // 대회 당일 (예선·본선 구분 없음)
     },
     groupApplyMode: 'both', // 'excel' | 'web' | 'both'
   },
