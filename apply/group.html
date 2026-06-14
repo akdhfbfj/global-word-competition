@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>단체 신청 — 글로벌 국제 영어 단어 대회</title>
+  <link rel="stylesheet" href="../assets/css/word-competition.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="../index.html" class="logo">
+        <span class="logo__org" data-site-org></span>
+        <span class="logo__title"><span data-site-title></span><span class="logo__badge">단어</span></span>
+      </a>
+      <nav class="nav-main">
+        <a href="../about.html">대회 소개</a>
+        <a href="individual.html">개인 신청</a>
+        <a href="group.html" class="is-active">단체 신청</a>
+        <a href="check.html">접수 확인</a>
+        <a href="../notice.html">공지사항</a>
+        <a href="../faq.html">FAQ</a>
+      </nav>
+      <div class="header-actions">
+        <a href="individual.html" class="btn btn--sm btn--gold">개인 신청</a>
+        <a href="group.html" class="btn btn--sm btn--outline">단체 신청</a>
+      </div>
+      <button class="nav-toggle" aria-label="메뉴"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+
+  <div class="page-header">
+    <div class="container">
+      <p class="breadcrumb"><a href="../index.html">홈</a> &gt; 접수 &gt; 단체 신청</p>
+      <h1>단체 신청</h1>
+      <p>학원·단체 일괄 접수</p>
+    </div>
+  </div>
+
+  <main class="form-page">
+    <div class="container">
+      <div class="form-card" style="max-width:800px">
+        <form id="group-form" novalidate>
+
+          <div class="form-group" data-required>
+            <label for="orgName">학원 및 단체 이름 <span class="required">*</span></label>
+            <input type="text" id="orgName" name="orgName" required>
+            <span class="form-error"></span>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group" data-required>
+              <label for="phoneAcademy">학원 연락처 <span class="required">*</span></label>
+              <input type="tel" id="phoneAcademy" name="phoneAcademy" required>
+              <span class="form-error"></span>
+            </div>
+            <div class="form-group" data-required>
+              <label for="phoneParent">학부모 연락처 <span class="required">*</span></label>
+              <input type="tel" id="phoneParent" name="phoneParent" required>
+              <span class="form-error"></span>
+              <p class="hint">학원/학부모 연락처 모두 기입해 주세요.</p>
+            </div>
+          </div>
+
+          <div class="form-group" data-required>
+            <label for="address">주소 (메달·상장 수령) <span class="required">*</span></label>
+            <input type="text" id="address" name="address" required>
+            <span class="form-error"></span>
+          </div>
+
+          <h3 style="margin:1.5rem 0 0.75rem;font-size:1rem;color:var(--color-navy)">참가자 명단</h3>
+
+          <div class="form-group">
+            <label for="excel-upload">명단 파일 업로드</label>
+            <input type="file" id="excel-upload" accept=".csv,.xlsx,.xls">
+            <p class="hint">
+              <a href="../assets/templates/group-participants.csv" download>CSV 양식 다운로드</a> 후 작성하여 업로드해 주세요.
+              (엑셀 파일은 CSV UTF-8로 저장 후 업로드)
+            </p>
+          </div>
+
+          <p class="hint" style="margin-bottom:0.75rem">또는 아래 표에서 직접 입력할 수 있습니다.</p>
+
+          <div class="participant-table-wrap">
+            <table class="participant-table">
+              <thead>
+                <tr>
+                  <th>이름</th>
+                  <th>학교</th>
+                  <th>학년</th>
+                  <th>레벨</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="participant-tbody"></tbody>
+            </table>
+          </div>
+          <div class="participant-actions">
+            <button type="button" id="add-participant" class="btn btn--sm btn--outline">+ 참가자 추가</button>
+          </div>
+
+          <div class="fee-summary">
+            <div>
+              <div style="font-size:0.85rem;opacity:0.8">참가 인원</div>
+              <div id="participant-count">0명</div>
+            </div>
+            <div style="text-align:right">
+              <div style="font-size:0.85rem;opacity:0.8">총 참가비</div>
+              <div class="fee-summary__amount" id="total-fee">0원</div>
+            </div>
+          </div>
+
+          <div class="form-notice">
+            <strong>입금 안내</strong><br>
+            1인당 <span data-fee></span> × 참가 인원<br>
+            입금 계좌: <span data-bank-info></span><br>
+            입금자명: 단체명<br>
+            입금 확인 후 2영업일 이내 개별 안내 문자가 발송됩니다.
+          </div>
+
+          <div class="form-group" data-required>
+            <label class="form-checkbox">
+              <input type="checkbox" id="privacy" required>
+              <span><a href="../privacy.html" target="_blank">개인정보 수집 및 이용</a>에 동의합니다. <span class="required">*</span></span>
+            </label>
+            <span class="form-error"></span>
+          </div>
+
+          <button type="submit" class="btn btn--primary btn--block">접수하기</button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p class="footer-copy">COPYRIGHT © Global English Education Academy.</p>
+    </div>
+  </footer>
+
+  <script src="../assets/js/config.js"></script>
+  <script src="../assets/js/sheets.js"></script>
+  <script src="../assets/js/form.js"></script>
+  <script src="../assets/js/word-form.js"></script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>접수 확인 — 글로벌 국제 영어 단어 대회</title>
+  <link rel="stylesheet" href="../assets/css/word-competition.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="../index.html" class="logo">
+        <span class="logo__org" data-site-org></span>
+        <span class="logo__title"><span data-site-title></span><span class="logo__badge">단어</span></span>
+      </a>
+      <nav class="nav-main">
+        <a href="../about.html">대회 소개</a>
+        <a href="individual.html">개인 신청</a>
+        <a href="group.html">단체 신청</a>
+        <a href="check.html" class="is-active">접수 확인</a>
+        <a href="../notice.html">공지사항</a>
+        <a href="../faq.html">FAQ</a>
+      </nav>
+      <div class="header-actions">
+        <a href="individual.html" class="btn btn--sm btn--gold">개인 신청</a>
+        <a href="group.html" class="btn btn--sm btn--outline">단체 신청</a>
+      </div>
+      <button class="nav-toggle" aria-label="메뉴"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+
+  <div class="page-header">
+    <div class="container">
+      <p class="breadcrumb"><a href="../index.html">홈</a> &gt; 접수 확인</p>
+      <h1>접수 확인</h1>
+      <p>접수번호로 신청 내역을 조회합니다.</p>
+    </div>
+  </div>
+
+  <main class="form-page">
+    <div class="container">
+      <div class="form-card">
+        <form id="check-form">
+          <div class="form-group">
+            <label for="receiptNo">접수번호</label>
+            <input type="text" id="receiptNo" placeholder="예: W20260601-1234" required>
+          </div>
+          <div class="form-group">
+            <label for="checkName">이름 (또는 단체명)</label>
+            <input type="text" id="checkName" required>
+          </div>
+          <div class="form-group">
+            <label for="phoneLast4">연락처 뒷 4자리</label>
+            <input type="text" id="phoneLast4" maxlength="4" pattern="[0-9]{4}" placeholder="0000" required>
+          </div>
+          <button type="submit" class="btn btn--primary btn--block">조회하기</button>
+        </form>
+        <div id="check-result" style="margin-top:1.5rem"></div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p class="footer-copy">COPYRIGHT © Global English Education Academy.</p>
+    </div>
+  </footer>
+
+  <script src="../assets/js/config.js"></script>
+  <script src="../assets/js/sheets.js"></script>
+  <script src="../assets/js/form.js"></script>
+  <script src="../assets/js/word-form.js"></script>
+</body>
+</html>

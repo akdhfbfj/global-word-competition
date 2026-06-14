@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>대회 소개 — 글로벌 국제 영어 단어 대회</title>
+  <link rel="stylesheet" href="assets/css/word-competition.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <span class="logo__org" data-site-org></span>
+        <span class="logo__title"><span data-site-title></span><span class="logo__badge">단어</span></span>
+      </a>
+      <nav class="nav-main">
+        <a href="about.html" class="is-active">대회 소개</a>
+        <a href="apply/individual.html">개인 신청</a>
+        <a href="apply/group.html">단체 신청</a>
+        <a href="apply/check.html">접수 확인</a>
+        <a href="notice.html">공지사항</a>
+        <a href="faq.html">FAQ</a>
+      </nav>
+      <div class="header-actions">
+        <a href="apply/individual.html" class="btn btn--sm btn--gold">개인 신청</a>
+        <a href="apply/group.html" class="btn btn--sm btn--outline">단체 신청</a>
+      </div>
+      <button class="nav-toggle" aria-label="메뉴"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+
+  <div class="page-header">
+    <div class="container">
+      <p class="breadcrumb"><a href="index.html">홈</a> &gt; 대회 소개</p>
+      <h1>대회 소개</h1>
+      <p>글로벌 국제 영어 단어 대회 안내</p>
+    </div>
+  </div>
+
+  <main class="section">
+    <div class="container content-block">
+      <h2>대회 개요</h2>
+      <p>
+        글로벌 국제 영어 단어 대회(Global International English Word Competition)는
+        (주)글로벌영어교육아카데미가 주최하는 영어 어휘·발음 대회입니다.
+        기존 글로벌 국제 영어 말하기 대회와 함께, 영어 실력 향상을 위한
+        종합 교육 프로그램의 일환으로 운영됩니다.
+      </p>
+
+      <h2>참가 대상</h2>
+      <ul>
+        <li>유치원생부터 고등학생까지 (학년 기준)</li>
+        <li>CEFR 레벨 A1 · A2 · B1 · B2 · C1 · C2 중 선택하여 참가</li>
+      </ul>
+      <p class="hint" style="color:var(--color-text-muted);font-size:0.85rem">※ 유치원생도 참가 가능합니다. 신청 시 재학 학년을 입력해 주세요.</p>
+
+      <h2>대회 일정</h2>
+      <table class="info-table">
+        <tbody id="schedule-table-body"></tbody>
+      </table>
+
+      <h2>평가 방식</h2>
+      <p>
+        단어와 알파벳 양쪽을 채점합니다. 참가자는 본인이 선택한 CEFR 레벨에 맞춰 평가를 받습니다.
+      </p>
+
+      <h2>시상 안내</h2>
+      <p>
+        등수별 시상이 아닌 <strong>P/F(합격/불합격)</strong> 방식으로 결과를 안내합니다.
+      </p>
+
+      <h2>참가비 및 입금</h2>
+      <table class="info-table">
+        <tr><th>참가비</th><td><span data-fee></span> (1인)</td></tr>
+        <tr><th>입금 계좌</th><td><span data-bank-info></span></td></tr>
+        <tr><th>입금자명</th><td>개인: 학생 이름 / 단체: 단체명</td></tr>
+      </table>
+
+      <div class="cta-band" style="margin-top:2rem">
+        <h2>접수하기</h2>
+        <p>온라인으로 간편하게 신청하세요.</p>
+        <a href="apply/individual.html" class="btn btn--gold">개인 신청</a>
+        <a href="apply/group.html" class="btn btn--outline" style="color:#fff;border-color:rgba(255,255,255,0.5);margin-left:0.5rem">단체 신청</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand"><h3 data-site-org></h3><p>대표: <span data-site-ceo></span><br><span data-site-address></span></p></div>
+        <div class="footer-contact"><p>카톡: <span data-site-contact></span><br>이메일: <span data-site-email></span></p></div>
+      </div>
+      <div class="footer-links"><a href="privacy.html">개인정보처리방침</a></div>
+      <p class="footer-copy">COPYRIGHT © Global English Education Academy.</p>
+    </div>
+  </footer>
+
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/form.js"></script>
+  <script src="assets/js/word-form.js"></script>
+</body>
+</html>

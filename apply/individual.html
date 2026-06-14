@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>개인 신청 — 글로벌 국제 영어 단어 대회</title>
+  <link rel="stylesheet" href="../assets/css/word-competition.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="../index.html" class="logo">
+        <span class="logo__org" data-site-org></span>
+        <span class="logo__title"><span data-site-title></span><span class="logo__badge">단어</span></span>
+      </a>
+      <nav class="nav-main">
+        <a href="../about.html">대회 소개</a>
+        <a href="individual.html" class="is-active">개인 신청</a>
+        <a href="group.html">단체 신청</a>
+        <a href="check.html">접수 확인</a>
+        <a href="../notice.html">공지사항</a>
+        <a href="../faq.html">FAQ</a>
+      </nav>
+      <div class="header-actions">
+        <a href="individual.html" class="btn btn--sm btn--gold">개인 신청</a>
+        <a href="group.html" class="btn btn--sm btn--outline">단체 신청</a>
+      </div>
+      <button class="nav-toggle" aria-label="메뉴"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+
+  <div class="page-header">
+    <div class="container">
+      <p class="breadcrumb"><a href="../index.html">홈</a> &gt; 접수 &gt; 개인 신청</p>
+      <h1>개인 신청</h1>
+      <p>글로벌 국제 영어 단어 대회 개인 접수</p>
+    </div>
+  </div>
+
+  <main class="form-page">
+    <div class="container">
+      <div class="form-card">
+        <form id="individual-form" novalidate>
+          <div class="form-steps">
+            <div class="form-step is-active">1. 참가 정보</div>
+            <div class="form-step is-active">2. 연락처</div>
+            <div class="form-step is-active">3. 동의 및 제출</div>
+          </div>
+
+          <div class="form-group" data-required>
+            <label for="name">이름 <span class="required">*</span></label>
+            <input type="text" id="name" name="name" placeholder="학생 이름" required>
+            <span class="form-error"></span>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group" data-required>
+              <label for="birthDate">생년월일 <span class="required">*</span></label>
+              <input type="date" id="birthDate" name="birthDate" required>
+              <span class="form-error"></span>
+              <p class="hint">학년 기준으로 입력해 주세요. 유치원생도 참가 가능합니다.</p>
+            </div>
+            <div class="form-group" data-required>
+              <label for="level">참가 레벨 (CEFR) <span class="required">*</span></label>
+              <select id="level" name="level" required></select>
+              <span class="form-error"></span>
+              <p class="hint">A1~C2 중 본인에게 맞는 레벨을 선택하세요.</p>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group" data-required>
+              <label for="school">학교 <span class="required">*</span></label>
+              <input type="text" id="school" name="school" placeholder="OO초등학교, OO유치원" required>
+              <span class="form-error"></span>
+            </div>
+            <div class="form-group" data-required>
+              <label for="grade">학년 <span class="required">*</span></label>
+              <input type="text" id="grade" name="grade" placeholder="예: 유치원, 5학년" required>
+              <span class="form-error"></span>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group" data-required>
+              <label for="phoneStudent">학생 연락처 <span class="required">*</span></label>
+              <input type="tel" id="phoneStudent" name="phoneStudent" placeholder="010-0000-0000" required>
+              <span class="form-error"></span>
+            </div>
+            <div class="form-group" data-required>
+              <label for="phoneParent">학부모 연락처 <span class="required">*</span></label>
+              <input type="tel" id="phoneParent" name="phoneParent" placeholder="010-0000-0000" required>
+              <span class="form-error"></span>
+            </div>
+          </div>
+
+          <div class="form-group" data-required>
+            <label for="email">이메일 <span class="required">*</span></label>
+            <input type="email" id="email" name="email" placeholder="example@email.com" required>
+            <span class="form-error"></span>
+          </div>
+
+          <div class="form-group" data-required>
+            <label for="address">주소 (상장·메달 수령) <span class="required">*</span></label>
+            <input type="text" id="address" name="address" placeholder="우편번호 포함 전체 주소" required>
+            <span class="form-error"></span>
+          </div>
+
+          <div class="form-notice">
+            <strong>입금 안내</strong><br>
+            참가비: <span data-fee></span> (1인)<br>
+            입금 계좌: <span data-bank-info></span><br>
+            온라인 접수 후 참가비 입금 시 접수가 완료됩니다.<br>
+            입금 확인 후 2영업일 이내 안내 문자가 발송됩니다.
+          </div>
+
+          <div class="form-group" data-required>
+            <label class="form-checkbox">
+              <input type="checkbox" id="privacy" name="privacy" required>
+              <span><a href="../privacy.html" target="_blank">개인정보 수집 및 이용</a>에 동의합니다. <span class="required">*</span></span>
+            </label>
+            <span class="form-error"></span>
+          </div>
+
+          <button type="submit" class="btn btn--primary btn--block">접수하기</button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p class="footer-copy">COPYRIGHT © Global English Education Academy.</p>
+    </div>
+  </footer>
+
+  <script src="../assets/js/config.js"></script>
+  <script src="../assets/js/sheets.js"></script>
+  <script src="../assets/js/form.js"></script>
+  <script src="../assets/js/word-form.js"></script>
+</body>
+</html>

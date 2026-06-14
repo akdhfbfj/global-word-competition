@@ -1,0 +1,47 @@
+:root {
+  /* Brand */
+  --color-navy: #0f172a;
+  --color-navy-light: #1e293b;
+  --color-gold: #c9a227;
+  --color-gold-light: #e8c547;
+  --color-cream: #fafaf8;
+  --color-white: #ffffff;
+
+  /* Text */
+  --color-text: #1e293b;
+  --color-text-muted: #64748b;
+  --color-text-inverse: #f8fafc;
+
+  /* UI */
+  --color-border: #e2e8f0;
+  --color-success: #059669;
+  --color-error: #dc2626;
+
+  /* Typography */
+  --font-sans: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: 'Noto Sans KR', var(--font-sans);
+
+  /* Spacing */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+
+  /* Layout */
+  --max-width: 1120px;
+  --header-height: 72px;
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+
+  /* Shadow */
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.08);
+  --shadow-md: 0 4px 20px rgba(15, 23, 42, 0.1);
+  --shadow-lg: 0 12px 40px rgba(15, 23, 42, 0.12);
+
+  /* Transition */
+  --transition: 0.2s ease;
+}
