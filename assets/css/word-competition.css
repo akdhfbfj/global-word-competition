@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap');
 @import url('./variables.css');
 @import url('./base.css');
 @import url('./layout.css');
@@ -57,47 +57,54 @@
   width: 100%;
 }
 
-/* Hero — 배너 + 버튼 + 카운트다운 세로 스택 */
+/* Hero */
 .hero {
-  background: var(--color-banner-bg);
+  position: relative;
+  padding: var(--space-3xl) 0;
+  background: linear-gradient(135deg, var(--color-navy) 0%, #1a2744 50%, var(--color-navy-light) 100%);
   color: var(--color-text-inverse);
+  overflow: hidden;
 }
 
-.hero__banner-band {
-  width: 100%;
-  background: var(--color-banner-bg);
-  display: flex;
-  justify-content: center;
-  line-height: 0;
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 60%;
+  height: 200%;
+  background: radial-gradient(circle, var(--color-gold-glow) 0%, transparent 70%);
+  pointer-events: none;
 }
 
-.hero__banner-img {
-  width: 100%;
-  max-width: 960px;
-  height: auto;
+.hero__inner {
+  position: relative;
+  max-width: 720px;
   margin: 0 auto;
-}
-
-.hero__panel {
-  background: var(--color-banner-bg);
-  padding: var(--space-lg) 0 var(--space-2xl);
-}
-
-.hero__stack {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   text-align: center;
-  gap: var(--space-lg);
-  width: 100%;
+}
+
+.hero__label {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  margin-bottom: var(--space-md);
+}
+
+.hero__title {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  line-height: 1.25;
+  margin-bottom: var(--space-md);
 }
 
 .hero__subtitle {
-  max-width: 440px;
-  margin: 0 auto;
-  font-size: clamp(0.82rem, 2.5vw, 0.92rem);
-  line-height: 1.75;
-  color: rgba(248, 250, 252, 0.65);
+  font-size: 1rem;
+  color: rgba(248, 250, 252, 0.75);
+  margin-bottom: var(--space-xl);
 }
 
 .hero__actions {
@@ -105,46 +112,17 @@
   flex-wrap: wrap;
   gap: var(--space-md);
   justify-content: center;
-  width: 100%;
-  max-width: 440px;
-  margin: 0 auto;
 }
 
 .hero__btn-outline {
   color: #fff;
-  border-color: rgba(255, 255, 255, 0.42);
+  border-color: rgba(255, 255, 255, 0.5);
 }
 
 .hero__btn-outline:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.1);
   color: #fff;
-  border-color: rgba(255, 255, 255, 0.6);
-}
-
-.countdown--hero {
-  align-items: center;
-  margin-top: var(--space-xs);
-  width: 100%;
-}
-
-.countdown--hero .countdown__timer {
-  justify-content: center;
-}
-
-.countdown--hero .countdown__label {
-  font-size: 0.85rem;
-  color: rgba(248, 250, 252, 0.75);
-}
-
-.countdown--hero .countdown__digit {
-  background: rgba(0, 0, 0, 0.35);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
-}
-
-.hero-info {
-  background: linear-gradient(180deg, var(--color-banner-bg) 0%, var(--color-cream) 48px);
-  padding: var(--space-2xl) 0 var(--space-2xl);
+  border-color: rgba(255, 255, 255, 0.65);
 }
 
 /* Countdown timer */
@@ -241,8 +219,6 @@
 
 .card-grid--info {
   grid-template-columns: repeat(3, 1fr);
-  margin: 0 auto var(--space-xl);
-  max-width: 960px;
 }
 
 .card {
@@ -986,32 +962,13 @@
 }
 
 @media (max-width: 640px) {
-  .card-grid--3 {
+  .card-grid--3,
+  .card-grid--info {
     grid-template-columns: 1fr;
   }
 
-  .card-grid--info {
-    gap: var(--space-sm);
-  }
-
-  .card-grid--info .card {
-    padding: var(--space-md);
-  }
-
-  .card-grid--info .card__icon {
-    width: 32px;
-    height: 32px;
-    font-size: 1rem;
-    margin-bottom: var(--space-sm);
-  }
-
-  .card-grid--info .card__title {
-    font-size: 0.7rem;
-  }
-
-  .card-grid--info .card__value {
-    font-size: 0.78rem;
-    line-height: 1.4;
+  .form-row {
+    grid-template-columns: 1fr;
   }
 
   .hero__actions {
@@ -1020,20 +977,5 @@
 
   .hero__actions .btn {
     width: 100%;
-  }
-
-  .countdown--hero .countdown__digit {
-    min-width: 1.85rem;
-    height: 2.4rem;
-    font-size: 1.4rem;
-  }
-
-  .countdown--hero .countdown__sep {
-    font-size: 1.2rem;
-    line-height: 2.4rem;
-  }
-
-  .form-row {
-    grid-template-columns: 1fr;
   }
 }

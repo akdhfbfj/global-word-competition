@@ -1,9 +1,7 @@
 :root {
   /* Brand */
-  --color-navy: #0c1830;
-  --color-navy-light: #142440;
-  --color-hero-bg: #0c1830;
-  --color-banner-bg: #0c1830;
+  --color-navy: #0f172a;
+  --color-navy-light: #1e293b;
   --color-gold: #c9a227;
   --color-gold-light: #d4ad2e;
   --color-gold-subtle: rgba(201, 162, 39, 0.12);
@@ -25,7 +23,6 @@
 
   /* Typography */
   --font-sans: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
   --font-display: 'Noto Sans KR', var(--font-sans);
 
   /* Spacing */
