@@ -36,18 +36,17 @@
   <main>
     <section class="hero">
       <div class="hero__globe" aria-hidden="true">
-        <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="100" cy="100" r="88" stroke="currentColor" stroke-width="1.2"/>
-          <ellipse cx="100" cy="100" rx="88" ry="32" stroke="currentColor" stroke-width="0.9"/>
-          <ellipse cx="100" cy="100" rx="88" ry="58" stroke="currentColor" stroke-width="0.7" opacity="0.6"/>
-          <ellipse cx="100" cy="68" rx="75" ry="18" stroke="currentColor" stroke-width="0.7" opacity="0.5"/>
-          <ellipse cx="100" cy="132" rx="75" ry="18" stroke="currentColor" stroke-width="0.7" opacity="0.5"/>
-          <line x1="12" y1="100" x2="188" y2="100" stroke="currentColor" stroke-width="0.9"/>
-          <path d="M100 12 C55 12 28 52 28 100 C28 148 55 188 100 188" stroke="currentColor" stroke-width="0.9"/>
-          <path d="M100 12 C145 12 172 52 172 100 C172 148 145 188 100 188" stroke="currentColor" stroke-width="0.9"/>
-          <path d="M100 12 C72 48 72 152 100 188" stroke="currentColor" stroke-width="0.7" opacity="0.55"/>
-          <path d="M100 12 C128 48 128 152 100 188" stroke="currentColor" stroke-width="0.7" opacity="0.55"/>
-        </svg>
+        <div class="hero__globe-sphere">
+          <img
+            src="assets/images/hero-globe.png"
+            alt=""
+            class="hero__globe-img"
+            width="420"
+            height="420"
+            loading="lazy"
+            decoding="async"
+          >
+        </div>
       </div>
       <div class="container hero__inner">
         <span class="hero__label" data-site-title-en></span>
