@@ -1,3 +1,4 @@
 *.docx
 docs/generate-meeting-doc.py
 docs/word-competition-meeting-brief.docx
+_deploy/
