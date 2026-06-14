@@ -4,6 +4,8 @@
 const SITE = {
   orgName: '(주)글로벌영어교육아카데미',
   orgNameEn: 'Global English Education Academy',
+  siteUrl: 'https://global-word-competition.vercel.app',
+  ogImage: '/assets/images/og-share.png',
   contact: {
     kakao: '010-8034-9314',
     hours: '평일 10:00 ~ 18:00',
