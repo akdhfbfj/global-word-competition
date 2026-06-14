@@ -35,20 +35,27 @@
 
   <main>
     <section class="hero">
-      <div class="hero__art" aria-hidden="true">
-        <img
-          src="assets/images/hero-banner.png"
-          alt=""
-          class="hero__art-img"
-          width="640"
-          height="640"
-          loading="eager"
-          decoding="async"
-        >
+      <div class="hero__backdrop" aria-hidden="true">
+        <div class="hero__glow hero__glow--left"></div>
+        <div class="hero__glow hero__glow--right"></div>
       </div>
-      <div class="container hero__content">
+      <div class="container hero__grid">
+        <div class="hero__visual">
+          <img
+            src="assets/images/hero-globe-cutout.png"
+            alt=""
+            class="hero__globe-img"
+            width="420"
+            height="420"
+            loading="eager"
+            decoding="async"
+          >
+        </div>
         <div class="hero__inner">
-          <p class="hero__label" data-site-title-en></p>
+          <p class="hero__eyebrow">
+            <span class="hero__eyebrow-line"></span>
+            <span data-site-title-en></span>
+          </p>
           <h1 class="hero__title" data-site-title></h1>
           <p class="hero__subtitle">
             정확한 발음과 풍부한 어휘력으로 글로벌 무대에 도전하세요.<br>
@@ -58,7 +65,7 @@
             <a href="apply/individual.html" class="btn btn--gold">개인 신청하기</a>
             <a href="apply/group.html" class="btn btn--outline hero__btn-outline">단체 신청하기</a>
           </div>
-          <div class="countdown" id="hero-countdown">
+          <div class="countdown countdown--hero" id="hero-countdown">
             <p class="countdown__label">대회까지</p>
             <div class="countdown__timer">
               <div class="countdown__unit">
