@@ -59,9 +59,28 @@
 
 /* Hero — 배너 + 버튼 + 카운트다운 세로 스택 */
 .hero {
-  background: var(--color-hero-bg);
+  background: var(--color-banner-bg);
   color: var(--color-text-inverse);
-  padding: var(--space-xl) 0 var(--space-2xl);
+}
+
+.hero__banner-band {
+  width: 100%;
+  background: var(--color-banner-bg);
+  display: flex;
+  justify-content: center;
+  line-height: 0;
+}
+
+.hero__banner-img {
+  width: 100%;
+  max-width: 960px;
+  height: auto;
+  margin: 0 auto;
+}
+
+.hero__panel {
+  background: var(--color-banner-bg);
+  padding: var(--space-lg) 0 var(--space-2xl);
 }
 
 .hero__stack {
@@ -70,26 +89,15 @@
   align-items: center;
   text-align: center;
   gap: var(--space-lg);
-}
-
-.hero__figure {
   width: 100%;
-  max-width: 720px;
-  margin: 0;
-}
-
-.hero__banner-img {
-  display: block;
-  width: 100%;
-  height: auto;
 }
 
 .hero__subtitle {
-  max-width: 420px;
+  max-width: 440px;
+  margin: 0 auto;
   font-size: clamp(0.82rem, 2.5vw, 0.92rem);
   line-height: 1.75;
   color: rgba(248, 250, 252, 0.65);
-  margin: 0;
 }
 
 .hero__actions {
@@ -98,7 +106,8 @@
   gap: var(--space-md);
   justify-content: center;
   width: 100%;
-  max-width: 420px;
+  max-width: 440px;
+  margin: 0 auto;
 }
 
 .hero__btn-outline {
@@ -114,7 +123,8 @@
 
 .countdown--hero {
   align-items: center;
-  margin-top: var(--space-sm);
+  margin-top: var(--space-xs);
+  width: 100%;
 }
 
 .countdown--hero .countdown__timer {
@@ -127,26 +137,14 @@
 }
 
 .countdown--hero .countdown__digit {
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.35);
   border: 1px solid rgba(255, 255, 255, 0.06);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
 .hero-info {
-  background: var(--color-cream);
-  padding: var(--space-lg) 0 var(--space-2xl);
+  background: linear-gradient(180deg, var(--color-banner-bg) 0%, var(--color-cream) 48px);
+  padding: var(--space-2xl) 0 var(--space-2xl);
 }
 
 /* Countdown timer */
@@ -243,8 +241,8 @@
 
 .card-grid--info {
   grid-template-columns: repeat(3, 1fr);
-  margin-top: 0;
-  margin-bottom: var(--space-3xl);
+  margin: 0 auto var(--space-xl);
+  max-width: 960px;
 }
 
 .card {
