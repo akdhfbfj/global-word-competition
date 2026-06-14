@@ -20,11 +20,31 @@ function formatDate(dateStr) {
   return `${y}년 ${parseInt(m)}월 ${parseInt(d)}일`;
 }
 
-function formatDateShort(dateStr) {
+function formatDateRange(startStr, endStr) {
+  if (!startStr || !endStr) return '미정';
+  const [sy, sm, sd] = startStr.split('-');
+  const [, em, ed] = endStr.split('-');
+  return `${sy}년 ${parseInt(sm)}월 ${parseInt(sd)}일 ~ ${parseInt(em)}월 ${parseInt(ed)}일`;
+}
+
+function formatDateFull(dateStr) {
   if (!dateStr) return '미정';
   const d = new Date(dateStr + 'T00:00:00');
   const days = ['일', '월', '화', '수', '목', '금', '토'];
-  return `${d.getMonth() + 1}/${d.getDate()}(${days[d.getDay()]})`;
+  return `${d.getFullYear()}년 ${d.getMonth() + 1}월 ${d.getDate()}일(${days[d.getDay()]})`;
+}
+
+function formatDateShort(dateStr) {
+  return formatDateFull(dateStr);
+}
+
+function renderTitleHtml(comp) {
+  const h = comp.titleHighlight || '단어';
+  return `${comp.titleBefore || ''}<span class="text-gold">${h}</span>${comp.titleAfter || ''}`;
+}
+
+function renderTitlePlain(comp) {
+  return `${comp.titleBefore || ''}${comp.titleHighlight || ''}${comp.titleAfter || ''}`;
 }
 
 function populateLevels(selectEl) {
@@ -50,7 +70,10 @@ function formatBankAccount(bank) {
 function validateRequired(form) {
   let valid = true;
   $$('[data-required]', form).forEach((group) => {
-    const input = $('input, select, textarea', group);
+    const hiddenBirth = $('#birthDate', group);
+    const input =
+      hiddenBirth ||
+      $('input:not([type="hidden"]), select, textarea', group);
     const errorEl = $('.form-error', group);
     const isCheckbox = input?.type === 'checkbox';
 
@@ -100,11 +123,83 @@ function showSuccess(container, receiptNo) {
   `;
 }
 
+function initBirthDateInput(form) {
+  const yearEl = $('#birthYear', form);
+  const monthEl = $('#birthMonth', form);
+  const dayEl = $('#birthDay', form);
+  const hiddenEl = $('#birthDate', form);
+  if (!yearEl || !monthEl || !dayEl || !hiddenEl) return;
+
+  function syncHidden() {
+    const y = yearEl.value.padStart(4, '0');
+    const m = monthEl.value.padStart(2, '0');
+    const d = dayEl.value.padStart(2, '0');
+    hiddenEl.value =
+      yearEl.value.length === 4 && monthEl.value && dayEl.value ? `${y}-${m}-${d}` : '';
+  }
+
+  function digitsOnly(el, max) {
+    el.value = el.value.replace(/\D/g, '').slice(0, max);
+    syncHidden();
+  }
+
+  yearEl.addEventListener('input', () => {
+    digitsOnly(yearEl, 4);
+    if (yearEl.value.length === 4) monthEl.focus();
+  });
+  monthEl.addEventListener('input', () => {
+    digitsOnly(monthEl, 2);
+    if (monthEl.value.length === 2) dayEl.focus();
+  });
+  dayEl.addEventListener('input', () => digitsOnly(dayEl, 2));
+}
+
+function initLevelGuide(form) {
+  const select = $('#level', form);
+  const guideEl = $('#level-guide', form);
+  if (!select || !guideEl) return;
+
+  const comp = COMPETITIONS.word;
+  const groupMap = {
+    a1: 'A', a2: 'A', b1: 'B', b2: 'B', c1: 'C', c2: 'C',
+  };
+
+  function renderGuide() {
+    const key = groupMap[select.value];
+    const group = comp.levelGroups.find((g) => g.key === key);
+    if (!group) {
+      guideEl.innerHTML = comp.levelGroups
+        .map(
+          (g) => `
+          <div class="level-guide__item">
+            <strong>${g.title}</strong>
+            <p>${g.desc}</p>
+          </div>`
+        )
+        .join('');
+      return;
+    }
+    guideEl.innerHTML = `
+      <div class="level-guide__item level-guide__item--active">
+        <strong>${group.title}</strong>
+        <p>${group.desc}</p>
+      </div>`;
+  }
+
+  select.addEventListener('change', renderGuide);
+  renderGuide();
+}
+
 function initSiteMeta() {
   const comp = COMPETITIONS.word;
 
   $$('[data-site-org]').forEach((el) => (el.textContent = SITE.orgName));
-  $$('[data-site-title]').forEach((el) => (el.textContent = comp.title));
+  $$('[data-site-title]').forEach((el) => {
+    el.innerHTML = renderTitleHtml(comp);
+  });
+  $$('[data-site-title-plain]').forEach((el) => {
+    el.textContent = renderTitlePlain(comp);
+  });
   $$('[data-site-title-en]').forEach((el) => (el.textContent = comp.titleEn));
   $$('[data-site-contact]').forEach((el) => (el.textContent = SITE.contact.kakao));
   $$('[data-site-email]').forEach((el) => (el.textContent = SITE.contact.email));
