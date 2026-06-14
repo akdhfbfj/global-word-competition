@@ -9,6 +9,7 @@ function initIndividualForm() {
   populateLevels($('#level', form));
   initBirthDateInput(form);
   initLevelGuide(form);
+  initPhoneInputs(form);
   bindFormClearErrors(form);
 
   form.addEventListener('submit', async (e) => {
@@ -24,7 +25,6 @@ function initIndividualForm() {
       birthDate: $('#birthDate', form).value,
       school: $('#school', form).value.trim(),
       grade: $('#grade', form).value.trim(),
-      phoneStudent: $('#phoneStudent', form).value.trim(),
       phoneParent: $('#phoneParent', form).value.trim(),
       email: $('#email', form).value.trim(),
       level: $('#level', form).value,
@@ -48,6 +48,7 @@ function initGroupForm() {
   if (!form) return;
 
   bindFormClearErrors(form);
+  initPhoneInputs(form);
   initParticipantTable();
   updateFeeSummary();
 
@@ -175,7 +176,7 @@ function addParticipantRow(data = {}) {
     <td>
       <select name="pLevel">
         <option value="">레벨</option>
-        ${levels.map((l) => `<option value="${l.id}" ${data.level === l.id ? 'selected' : ''}>${l.label}</option>`).join('')}
+        ${levels.map((l) => `<option value="${l.id}" ${data.level === l.id ? 'selected' : ''}>${l.label} — ${l.desc || ''}</option>`).join('')}
       </select>
     </td>
     <td><button type="button" class="btn btn--sm btn--outline remove-row">삭제</button></td>
@@ -272,17 +273,59 @@ function initHomeCards() {
   if (feeEl) {
     feeEl.textContent = formatCurrency(comp.fee);
   }
+}
 
-  const ddayEl = $('#hero-dday');
-  if (ddayEl && sched.registrationEnd) {
-    const end = new Date(sched.registrationEnd);
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    end.setHours(0, 0, 0, 0);
-    const diff = Math.ceil((end - today) / (1000 * 60 * 60 * 24));
-    ddayEl.textContent =
-      diff > 0 ? `접수 마감까지 D-${diff}` : diff === 0 ? '오늘 접수 마감' : '접수가 마감되었습니다';
+function renderCountdownDigits(value, pad) {
+  return String(value)
+    .padStart(pad, '0')
+    .split('')
+    .map((d) => `<span class="countdown__digit">${d}</span>`)
+    .join('');
+}
+
+function initCompetitionCountdown() {
+  const root = $('#hero-countdown');
+  if (!root) return;
+
+  const dateStr = COMPETITIONS.word.schedule.competitionDate;
+  const target = new Date(dateStr + 'T09:00:00');
+
+  function tick() {
+    const now = new Date();
+    let diff = Math.max(0, target - now);
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    diff -= days * 1000 * 60 * 60 * 24;
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    diff -= hours * 1000 * 60 * 60;
+    const mins = Math.floor(diff / (1000 * 60));
+    diff -= mins * 1000 * 60;
+    const secs = Math.floor(diff / 1000);
+
+    const dayPad = days > 99 ? 3 : 2;
+    $('#cd-days').innerHTML = renderCountdownDigits(days, dayPad);
+    $('#cd-hours').innerHTML = renderCountdownDigits(hours, 2);
+    $('#cd-mins').innerHTML = renderCountdownDigits(mins, 2);
+    $('#cd-secs').innerHTML = renderCountdownDigits(secs, 2);
   }
+
+  tick();
+  setInterval(tick, 1000);
+}
+
+function initCefrLevelCards() {
+  const container = $('#cefr-level-cards');
+  if (!container) return;
+
+  container.innerHTML = COMPETITIONS.word.levelGroups
+    .map(
+      (g) => `
+      <div class="card card--center">
+        <div class="card__title">${g.title}</div>
+        <div class="card__value card__value--desc">${g.desc}</div>
+      </div>`
+    )
+    .join('');
 }
 
 function initHomeLevels() {
@@ -322,6 +365,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initGroupForm();
   initCheckForm();
   initHomeCards();
+  initCompetitionCountdown();
   initHomeLevels();
+  initCefrLevelCards();
   initAboutSchedule();
 });

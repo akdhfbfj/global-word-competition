@@ -46,7 +46,30 @@
           <a href="apply/individual.html" class="btn btn--gold">개인 신청하기</a>
           <a href="apply/group.html" class="btn btn--outline" style="color:#fff;border-color:rgba(255,255,255,0.5)">단체 신청하기</a>
         </div>
-        <p class="hero__dday" id="hero-dday"></p>
+        <div class="countdown" id="hero-countdown">
+          <p class="countdown__label">대회까지</p>
+          <div class="countdown__timer">
+            <div class="countdown__unit">
+              <div class="countdown__digits" id="cd-days"></div>
+              <span class="countdown__unit-label">DAY</span>
+            </div>
+            <span class="countdown__sep">:</span>
+            <div class="countdown__unit">
+              <div class="countdown__digits" id="cd-hours"></div>
+              <span class="countdown__unit-label">HOURS</span>
+            </div>
+            <span class="countdown__sep">:</span>
+            <div class="countdown__unit">
+              <div class="countdown__digits" id="cd-mins"></div>
+              <span class="countdown__unit-label">MINUTES</span>
+            </div>
+            <span class="countdown__sep">:</span>
+            <div class="countdown__unit">
+              <div class="countdown__digits" id="cd-secs"></div>
+              <span class="countdown__unit-label">SECOND</span>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -79,10 +102,12 @@
           </p>
         </div>
         <div class="content-block content-block--center">
-          <p>
-            (주)글로벌영어교육아카데미가 주최하는 본 대회는, 기존 글로벌 국제 영어 말하기 대회의
-            노하우를 바탕으로 단어·어휘 영역에 특화된 프로그램을 제공합니다.
-            말하기 대회와 함께 다년간 운영해 온 국제 영어 대회 브랜드의 일환으로,
+          <p class="prose-ko">
+            (주)글로벌영어교육아카데미가 주최하는 본 대회는,<br>
+            기존 글로벌 국제 영어 말하기 대회의 노하우를 바탕으로<br>
+            단어·어휘 영역에 특화된 프로그램을 제공합니다.<br>
+            말하기 대회와 함께 다년간 운영해 온<br>
+            국제 영어 대회 브랜드의 일환으로,<br>
             학부모와 학원이 신뢰할 수 있는 공정한 평가 체계를 갖추고 있습니다.
           </p>
           <a href="about.html" class="btn btn--primary">자세히 보기</a>
@@ -96,19 +121,21 @@
           <h2 class="section__title">CEFR이란?</h2>
           <p class="section__desc">국제적으로 통용되는 영어 능력 평가 기준</p>
         </div>
-        <div class="info-box">
+        <div class="info-box prose-ko">
           <p>
-            <strong>CEFR(Common European Framework of Reference for Languages)</strong>은
-            유럽연합이 개발한 국제 영어 능력 평가 프레임워크로, 전 세계 학교·대학·기업·공공기관에서
-            영어 실력을 측정하는 <strong>국제 표준</strong>으로 널리 사용됩니다.
+            <strong>CEFR(Common European Framework of Reference for Languages)</strong>은<br>
+            유럽연합이 개발한 국제 영어 능력 평가 프레임워크로,<br>
+            전 세계 학교·대학·기업·공공기관에서 영어 실력을 측정하는<br>
+            <strong>국제 표준</strong>으로 널리 사용됩니다.
           </p>
           <p>
-            본 대회는 CEFR A1(입문)부터 C2(고급)까지 레벨별로 참가하여,
-            학습자의 현재 실력에 맞는 공정한 평가를 받을 수 있습니다.
-            Cambridge, IELTS 등 국제 시험에서도 동일한 CEFR 체계를 참고하므로,
+            본 대회는 CEFR A1(입문)부터 C2(고급)까지 레벨별로 참가하여,<br>
+            학습자의 현재 실력에 맞는 공정한 평가를 받을 수 있습니다.<br>
+            Cambridge, IELTS 등 국제 시험에서도 동일한 CEFR 체계를 참고하므로,<br>
             학부모와 학원에서 <strong>권위 있는 국제 기준 대회</strong>로 인정받을 수 있습니다.
           </p>
         </div>
+        <div class="card-grid" id="cefr-level-cards" style="margin-top:var(--space-xl)"></div>
       </div>
     </section>
 

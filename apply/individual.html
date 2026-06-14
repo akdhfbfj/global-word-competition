@@ -70,9 +70,9 @@
             </div>
             <div class="form-group" data-required>
               <label for="level">참가 레벨 (CEFR) <span class="required">*</span></label>
-              <select id="level" name="level" required></select>
+              <select id="level" name="level" class="select-level" required></select>
               <span class="form-error"></span>
-              <div class="level-guide" id="level-guide"></div>
+              <div class="level-guide" id="level-guide" hidden></div>
             </div>
           </div>
 
@@ -89,17 +89,11 @@
             </div>
           </div>
 
-          <div class="form-row">
-            <div class="form-group" data-required>
-              <label for="phoneStudent">학생 연락처 <span class="required">*</span></label>
-              <input type="tel" id="phoneStudent" name="phoneStudent" placeholder="010-0000-0000" required>
-              <span class="form-error"></span>
-            </div>
-            <div class="form-group" data-required>
-              <label for="phoneParent">학부모 연락처 <span class="required">*</span></label>
-              <input type="tel" id="phoneParent" name="phoneParent" placeholder="010-0000-0000" required>
-              <span class="form-error"></span>
-            </div>
+          <div class="form-group" data-required>
+            <label for="phoneParent">학부모 연락처 <span class="required">*</span></label>
+            <input type="tel" id="phoneParent" name="phoneParent" placeholder="010-0000-0000" required>
+            <span class="form-error"></span>
+            <p class="hint">숫자만 입력하면 하이픈(-)이 자동으로 들어갑니다.</p>
           </div>
 
           <div class="form-group" data-required>

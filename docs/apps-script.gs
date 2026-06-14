@@ -30,11 +30,11 @@ function doPost(e) {
     if (data.type === 'individual') {
       var sheet = ss.getSheetByName('word_individual') || ss.insertSheet('word_individual');
       if (sheet.getLastRow() === 0) {
-        sheet.appendRow(['접수번호', '제출일시', '이름', '생년월일', '학교', '학년', '학생연락처', '학부모연락처', '이메일', '레벨', '주소']);
+        sheet.appendRow(['접수번호', '제출일시', '이름', '생년월일', '학교', '학년', '학부모연락처', '이메일', '레벨', '주소']);
       }
       sheet.appendRow([
         data.receiptNo, data.submittedAt, data.name, data.birthDate,
-        data.school, data.grade, data.phoneStudent, data.phoneParent,
+        data.school, data.grade, data.phoneParent,
         data.email, data.level, data.address
       ]);
     }
