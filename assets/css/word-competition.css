@@ -274,10 +274,19 @@
   text-align: left;
 }
 
-.content-block--intro .prose-ko {
+.content-block--intro p {
   color: var(--color-text-muted);
   line-height: 1.85;
   font-size: 1rem;
+}
+
+.content-block--intro p + p {
+  margin-top: var(--space-md);
+}
+
+.content-block--intro.prose-ko {
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 .content-block__actions {
