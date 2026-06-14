@@ -30,23 +30,22 @@ function doPost(e) {
     if (data.type === 'individual') {
       var sheet = ss.getSheetByName('word_individual') || ss.insertSheet('word_individual');
       if (sheet.getLastRow() === 0) {
-        sheet.appendRow(['접수번호', '제출일시', '이름', '생년월일', '학교', '학년', '학부모연락처', '이메일', '레벨', '주소']);
+        sheet.appendRow(['접수번호', '제출일시', '이름', '생년월일', '학교', '학년', '학부모연락처', '레벨']);
       }
       sheet.appendRow([
         data.receiptNo, data.submittedAt, data.name, data.birthDate,
-        data.school, data.grade, data.phoneParent,
-        data.email, data.level, data.address
+        data.school, data.grade, data.phoneParent, data.level
       ]);
     }
 
     if (data.type === 'group') {
       var gSheet = ss.getSheetByName('word_group') || ss.insertSheet('word_group');
       if (gSheet.getLastRow() === 0) {
-        gSheet.appendRow(['접수번호', '제출일시', '단체명', '학원연락처', '학부모연락처', '주소', '인원', '총참가비']);
+        gSheet.appendRow(['접수번호', '제출일시', '단체명', '학원연락처', '인원', '총참가비']);
       }
       gSheet.appendRow([
         data.receiptNo, data.submittedAt, data.orgName, data.phoneAcademy,
-        data.phoneParent, data.address, data.participantCount, data.totalFee
+        data.participantCount, data.totalFee
       ]);
 
       var pSheet = ss.getSheetByName('word_participants') || ss.insertSheet('word_participants');

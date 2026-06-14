@@ -12,9 +12,17 @@ function initIndividualForm() {
   initPhoneInputs(form);
   bindFormClearErrors(form);
 
+  const validatePhoneMatch = initPhoneConfirm(
+    form,
+    'phoneParent',
+    'phoneParentConfirm',
+    '학부모 연락처'
+  );
+
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     if (!validateRequired(form)) return;
+    if (validatePhoneMatch && !validatePhoneMatch()) return;
 
     const btn = $('button[type="submit"]', form);
     btn.disabled = true;
@@ -26,9 +34,7 @@ function initIndividualForm() {
       school: $('#school', form).value.trim(),
       grade: $('#grade', form).value.trim(),
       phoneParent: $('#phoneParent', form).value.trim(),
-      email: $('#email', form).value.trim(),
       level: $('#level', form).value,
-      address: $('#address', form).value.trim(),
     };
 
     try {
@@ -43,22 +49,47 @@ function initIndividualForm() {
   });
 }
 
+let uploadedParticipants = [];
+
 function initGroupForm() {
   const form = $('#group-form');
   if (!form) return;
 
   bindFormClearErrors(form);
   initPhoneInputs(form);
-  initParticipantTable();
+
+  const validatePhoneMatch = initPhoneConfirm(
+    form,
+    'phoneAcademy',
+    'phoneAcademyConfirm',
+    '학원 연락처'
+  );
+
+  const countInput = $('#participantCountInput', form);
+  if (countInput) {
+    countInput.addEventListener('input', updateFeeSummary);
+  }
+
+  initCsvUpload(form);
   updateFeeSummary();
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     if (!validateRequired(form)) return;
+    if (validatePhoneMatch && !validatePhoneMatch()) return;
 
-    const participants = collectParticipants();
-    if (participants.length === 0) {
-      alert('참가자를 1명 이상 추가해 주세요.');
+    const count = parseInt($('#participantCountInput', form)?.value, 10) || 0;
+    if (count < 1) {
+      alert('참가 인원을 입력해 주세요.');
+      return;
+    }
+
+    if (uploadedParticipants.length === 0) {
+      const csvError = $('#csv-error', form);
+      if (csvError) {
+        csvError.textContent = '명단 파일을 업로드해 주세요.';
+        csvError.closest('.form-group')?.classList.add('is-invalid');
+      }
       return;
     }
 
@@ -69,11 +100,9 @@ function initGroupForm() {
     const data = {
       orgName: $('#orgName', form).value.trim(),
       phoneAcademy: $('#phoneAcademy', form).value.trim(),
-      phoneParent: $('#phoneParent', form).value.trim(),
-      address: $('#address', form).value.trim(),
-      participantCount: participants.length,
-      totalFee: participants.length * COMPETITIONS.word.fee,
-      participants,
+      participantCount: count,
+      totalFee: count * COMPETITIONS.word.fee,
+      participants: uploadedParticipants,
     };
 
     try {
@@ -109,114 +138,74 @@ function parseCsvParticipants(text) {
     ])
   );
 
-  return lines.slice(1).map((line) => {
-    const cols = line.split(',').map((c) => c.trim());
-    const rawLevel = levelIdx >= 0 ? cols[levelIdx] : '';
-    const levelId = levelMap[rawLevel.toLowerCase()] || rawLevel.toLowerCase();
-    return {
-      name: cols[nameIdx] || '',
-      school: schoolIdx >= 0 ? cols[schoolIdx] : '',
-      grade: gradeIdx >= 0 ? cols[gradeIdx] : '',
-      level: levelId,
-    };
-  }).filter((p) => p.name);
+  return lines
+    .slice(1)
+    .map((line) => {
+      const cols = line.split(',').map((c) => c.trim());
+      const rawLevel = levelIdx >= 0 ? cols[levelIdx] : '';
+      const levelId = levelMap[rawLevel.toLowerCase()] || rawLevel.toLowerCase();
+      return {
+        name: cols[nameIdx] || '',
+        school: schoolIdx >= 0 ? cols[schoolIdx] : '',
+        grade: gradeIdx >= 0 ? cols[gradeIdx] : '',
+        level: levelId,
+      };
+    })
+    .filter((p) => p.name);
 }
 
-function initParticipantTable() {
-  const tbody = $('#participant-tbody');
-  const addBtn = $('#add-participant');
-  if (!tbody || !addBtn) return;
+function initCsvUpload(form) {
+  const excelInput = $('#excel-upload', form);
+  if (!excelInput) return;
 
-  addBtn.addEventListener('click', () => addParticipantRow());
+  excelInput.addEventListener('change', async () => {
+    const file = excelInput.files?.[0];
+    const csvError = $('#csv-error', form);
+    const csvStatus = $('#csv-status', form);
+    const group = excelInput.closest('.form-group');
 
-  const excelInput = $('#excel-upload');
-  if (excelInput) {
-    excelInput.addEventListener('change', async () => {
-      const file = excelInput.files?.[0];
-      if (!file) return;
+    group?.classList.remove('is-invalid');
+    if (csvError) csvError.textContent = '';
+    if (csvStatus) csvStatus.hidden = true;
+    uploadedParticipants = [];
 
-      const ext = file.name.split('.').pop().toLowerCase();
-      if (ext === 'xlsx' || ext === 'xls') {
-        alert('엑셀(.xlsx) 파일은 CSV로 저장 후 업로드해 주세요.\n엑셀 → 다른 이름으로 저장 → CSV UTF-8');
-        excelInput.value = '';
-        return;
-      }
+    if (!file) return;
 
-      try {
-        const text = await file.text();
-        const participants = parseCsvParticipants(text);
-        if (participants.length === 0) {
-          alert('참가자 데이터를 찾을 수 없습니다. 양식을 확인해 주세요.');
-          return;
-        }
-        tbody.innerHTML = '';
-        participants.forEach((p) => addParticipantRow(p));
-        alert(`${participants.length}명의 참가자를 불러왔습니다.`);
-      } catch (err) {
-        alert(err.message || '파일을 읽는 중 오류가 발생했습니다.');
-      }
+    const ext = file.name.split('.').pop().toLowerCase();
+    if (ext === 'xlsx' || ext === 'xls') {
+      if (csvError) csvError.textContent = '엑셀 파일은 CSV로 저장 후 업로드해 주세요.';
+      group?.classList.add('is-invalid');
       excelInput.value = '';
-    });
-  }
-
-  if ($$('#participant-tbody tr').length === 0) {
-    addParticipantRow();
-  }
-}
-
-function addParticipantRow(data = {}) {
-  const tbody = $('#participant-tbody');
-  const levels = COMPETITIONS.word.levels;
-  const row = document.createElement('tr');
-
-  row.innerHTML = `
-    <td><input type="text" name="pName" value="${data.name || ''}" placeholder="이름" required></td>
-    <td><input type="text" name="pSchool" value="${data.school || ''}" placeholder="학교"></td>
-    <td><input type="text" name="pGrade" value="${data.grade || ''}" placeholder="학년"></td>
-    <td>
-      <select name="pLevel">
-        <option value="">레벨</option>
-        ${levels.map((l) => `<option value="${l.id}" ${data.level === l.id ? 'selected' : ''}>${l.label} — ${l.desc || ''}</option>`).join('')}
-      </select>
-    </td>
-    <td><button type="button" class="btn btn--sm btn--outline remove-row">삭제</button></td>
-  `;
-
-  $('.remove-row', row).addEventListener('click', () => {
-    if ($$('#participant-tbody tr').length <= 1) {
-      alert('최소 1명의 참가자가 필요합니다.');
       return;
     }
-    row.remove();
-    updateFeeSummary();
+
+    try {
+      const text = await file.text();
+      uploadedParticipants = parseCsvParticipants(text);
+      if (uploadedParticipants.length === 0) {
+        if (csvError) csvError.textContent = '참가자 데이터를 찾을 수 없습니다. 양식을 확인해 주세요.';
+        group?.classList.add('is-invalid');
+        return;
+      }
+      if (csvStatus) {
+        csvStatus.hidden = false;
+        csvStatus.textContent = `${uploadedParticipants.length}명의 참가자 명단을 불러왔습니다.`;
+      }
+    } catch (err) {
+      if (csvError) csvError.textContent = err.message || '파일을 읽는 중 오류가 발생했습니다.';
+      group?.classList.add('is-invalid');
+      excelInput.value = '';
+    }
   });
-
-  $$('input, select', row).forEach((el) => {
-    el.addEventListener('change', updateFeeSummary);
-  });
-
-  tbody.appendChild(row);
-  updateFeeSummary();
-}
-
-function collectParticipants() {
-  const rows = $$('#participant-tbody tr');
-  return rows
-    .map((row) => ({
-      name: $('input[name="pName"]', row)?.value.trim(),
-      school: $('input[name="pSchool"]', row)?.value.trim(),
-      grade: $('input[name="pGrade"]', row)?.value.trim(),
-      level: $('select[name="pLevel"]', row)?.value,
-    }))
-    .filter((p) => p.name);
 }
 
 function updateFeeSummary() {
   const countEl = $('#participant-count');
   const totalEl = $('#total-fee');
+  const countInput = $('#participantCountInput');
   if (!countEl || !totalEl) return;
 
-  const count = collectParticipants().length;
+  const count = parseInt(countInput?.value, 10) || 0;
   const fee = COMPETITIONS.word.fee;
   countEl.textContent = count + '명';
   totalEl.textContent = formatCurrency(count * fee);
@@ -328,21 +317,6 @@ function initCefrLevelCards() {
     .join('');
 }
 
-function initHomeLevels() {
-  const container = $('#home-level-cards');
-  if (!container) return;
-
-  container.innerHTML = COMPETITIONS.word.levelGroups
-    .map(
-      (g) => `
-      <div class="card card--center">
-        <div class="card__title">${g.title}</div>
-        <div class="card__value card__value--desc">${g.desc}</div>
-      </div>`
-    )
-    .join('');
-}
-
 function initAboutSchedule() {
   const tbody = $('#schedule-table-body');
   if (!tbody) return;
@@ -366,7 +340,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initCheckForm();
   initHomeCards();
   initCompetitionCountdown();
-  initHomeLevels();
   initCefrLevelCards();
   initAboutSchedule();
 });

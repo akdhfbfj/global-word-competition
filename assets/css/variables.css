@@ -3,7 +3,11 @@
   --color-navy: #0f172a;
   --color-navy-light: #1e293b;
   --color-gold: #c9a227;
-  --color-gold-light: #e8c547;
+  --color-gold-light: #d4ad2e;
+  --color-gold-subtle: rgba(201, 162, 39, 0.12);
+  --color-gold-border: rgba(201, 162, 39, 0.28);
+  --color-gold-glow: rgba(201, 162, 39, 0.15);
+  --color-gold-muted: rgba(201, 162, 39, 0.08);
   --color-cream: #fafaf8;
   --color-white: #ffffff;
 

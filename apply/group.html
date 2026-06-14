@@ -40,7 +40,7 @@
 
   <main class="form-page">
     <div class="container">
-      <div class="form-card" style="max-width:800px">
+      <div class="form-card" style="max-width:640px">
         <form id="group-form" novalidate>
 
           <div class="form-group" data-required>
@@ -49,55 +49,34 @@
             <span class="form-error"></span>
           </div>
 
-          <div class="form-row">
-            <div class="form-group" data-required>
-              <label for="phoneAcademy">학원 연락처 <span class="required">*</span></label>
-              <input type="tel" id="phoneAcademy" name="phoneAcademy" required>
-              <span class="form-error"></span>
-            </div>
-            <div class="form-group" data-required>
-              <label for="phoneParent">학부모 연락처 <span class="required">*</span></label>
-              <input type="tel" id="phoneParent" name="phoneParent" required>
-              <span class="form-error"></span>
-              <p class="hint">학원/학부모 연락처 모두 기입해 주세요.</p>
-            </div>
+          <div class="form-group" data-required>
+            <label for="phoneAcademy">학원 연락처 <span class="required">*</span></label>
+            <input type="tel" id="phoneAcademy" name="phoneAcademy" placeholder="010-0000-0000" required>
+            <span class="form-error"></span>
           </div>
 
           <div class="form-group" data-required>
-            <label for="address">주소 (메달·상장 수령) <span class="required">*</span></label>
-            <input type="text" id="address" name="address" required>
+            <label for="phoneAcademyConfirm">학원 연락처 확인 <span class="required">*</span></label>
+            <input type="tel" id="phoneAcademyConfirm" placeholder="010-0000-0000" required>
+            <span class="form-error"></span>
+          </div>
+
+          <div class="form-group" data-required>
+            <label for="participantCountInput">참가 인원 <span class="required">*</span></label>
+            <input type="number" id="participantCountInput" min="1" max="999" placeholder="예: 10" required>
             <span class="form-error"></span>
           </div>
 
           <h3 style="margin:1.5rem 0 0.75rem;font-size:1rem;color:var(--color-navy)">참가자 명단</h3>
 
-          <div class="form-group">
-            <label for="excel-upload">명단 파일 업로드</label>
-            <input type="file" id="excel-upload" accept=".csv,.xlsx,.xls">
+          <div class="form-group" data-required>
+            <label for="excel-upload">명단 파일 업로드 <span class="required">*</span></label>
+            <input type="file" id="excel-upload" accept=".csv,.xlsx,.xls" required>
             <p class="hint">
               <a href="../assets/templates/group-participants.csv" download>CSV 양식 다운로드</a> 후 작성하여 업로드해 주세요.
-              (엑셀 파일은 CSV UTF-8로 저장 후 업로드)
             </p>
-          </div>
-
-          <p class="hint" style="margin-bottom:0.75rem">또는 아래 표에서 직접 입력할 수 있습니다.</p>
-
-          <div class="participant-table-wrap">
-            <table class="participant-table">
-              <thead>
-                <tr>
-                  <th>이름</th>
-                  <th>학교</th>
-                  <th>학년</th>
-                  <th>레벨</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody id="participant-tbody"></tbody>
-            </table>
-          </div>
-          <div class="participant-actions">
-            <button type="button" id="add-participant" class="btn btn--sm btn--outline">+ 참가자 추가</button>
+            <span class="form-error" id="csv-error"></span>
+            <p class="hint" id="csv-status" hidden></p>
           </div>
 
           <div class="fee-summary">

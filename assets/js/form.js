@@ -79,6 +79,34 @@ function initPhoneInputs(form) {
   $$('input[type="tel"]', form).forEach(initPhoneInput);
 }
 
+function initPhoneConfirm(form, primaryId, confirmId, label) {
+  const primary = $(`#${primaryId}`, form);
+  const confirm = $(`#${confirmId}`, form);
+  if (!primary || !confirm) return;
+
+  function validateMatch() {
+    const group = confirm.closest('.form-group');
+    const errorEl = $('.form-error', group);
+    if (!confirm.value.trim()) return true;
+
+    if (primary.value.trim() !== confirm.value.trim()) {
+      group.classList.add('is-invalid');
+      if (errorEl) errorEl.textContent = `${label}가 일치하지 않습니다.`;
+      return false;
+    }
+    group.classList.remove('is-invalid');
+    if (errorEl) errorEl.textContent = '';
+    return true;
+  }
+
+  confirm.addEventListener('input', validateMatch);
+  primary.addEventListener('input', () => {
+    if (confirm.value.trim()) validateMatch();
+  });
+
+  return validateMatch;
+}
+
 /** @deprecated populateLevels 사용 */
 function populateDivisions(selectEl) {
   populateLevels(selectEl);

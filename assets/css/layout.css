@@ -48,7 +48,7 @@
   font-size: 0.65rem;
   font-weight: 600;
   color: var(--color-gold);
-  background: rgba(201, 162, 39, 0.12);
+  background: var(--color-gold-subtle);
   padding: 2px 8px;
   border-radius: 999px;
   margin-left: 6px;
@@ -136,7 +136,7 @@
 }
 
 .footer-links a:hover {
-  color: var(--color-gold-light);
+  color: var(--color-gold);
 }
 
 .footer-copy {
