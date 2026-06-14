@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>접수 관리 — 운영진</title>
+  <link rel="stylesheet" href="../assets/css/word-competition.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="../index.html" class="logo">
+        <span class="logo__org" data-site-org></span>
+        <span class="logo__title" data-site-title></span>
+      </a>
+    </div>
+  </header>
+
+  <main class="admin-page">
+    <div class="container">
+      <h1 style="margin-bottom:1.5rem;color:var(--color-navy)">접수 관리 (운영진)</h1>
+
+      <div id="admin-login" class="form-card" style="max-width:420px">
+        <form id="login-form">
+          <div class="form-group">
+            <label for="admin-token">관리자 토큰</label>
+            <input type="password" id="admin-token" placeholder="Apps Script ADMIN_TOKEN" required>
+            <p class="hint">Google Apps Script 스크립트 속성의 ADMIN_TOKEN과 동일하게 입력</p>
+          </div>
+          <button type="submit" class="btn btn--primary btn--block">로그인</button>
+        </form>
+      </div>
+
+      <div id="admin-panel" hidden>
+        <div class="admin-stats">
+          <div class="admin-stat">
+            <div class="admin-stat__label">개인 접수</div>
+            <div class="admin-stat__value" id="stat-individual">0</div>
+          </div>
+          <div class="admin-stat">
+            <div class="admin-stat__label">단체 접수</div>
+            <div class="admin-stat__value" id="stat-group">0</div>
+          </div>
+          <div class="admin-stat">
+            <div class="admin-stat__label">단체 참가자</div>
+            <div class="admin-stat__value" id="stat-participants">0</div>
+          </div>
+        </div>
+
+        <div class="admin-toolbar">
+          <button type="button" class="btn btn--primary" id="btn-refresh">새로고침</button>
+          <button type="button" class="btn btn--outline" id="btn-export-individual">개인 CSV 내보내기</button>
+          <button type="button" class="btn btn--outline" id="btn-export-group">단체 CSV 내보내기</button>
+          <button type="button" class="btn btn--outline" id="btn-export-all">전체 CSV 내보내기</button>
+        </div>
+
+        <h2 style="font-size:1rem;margin:1.5rem 0 0.75rem">개인 접수</h2>
+        <div class="admin-table-wrap">
+          <table class="admin-table" id="table-individual">
+            <thead><tr><td colspan="10">데이터 없음</td></tr></thead>
+          </table>
+        </div>
+
+        <h2 style="font-size:1rem;margin:1.5rem 0 0.75rem">단체 접수</h2>
+        <div class="admin-table-wrap">
+          <table class="admin-table" id="table-group">
+            <thead><tr><td colspan="8">데이터 없음</td></tr></thead>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="../assets/js/config.js"></script>
+  <script src="../assets/js/form.js"></script>
+  <script src="../assets/js/admin.js"></script>
+</body>
+</html>

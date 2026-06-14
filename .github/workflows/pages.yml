@@ -21,7 +21,7 @@ jobs:
         run: |
           mkdir _site
           cp index.html about.html faq.html notice.html privacy.html _site/
-          cp -r apply assets _site/
+          cp -r apply assets admin _site/
           cp .nojekyll _site/
 
       - name: Deploy to gh-pages branch

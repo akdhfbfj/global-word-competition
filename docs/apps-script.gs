@@ -1,21 +1,34 @@
 /**
  * Google Apps Script — Web App 배포용
  *
- * 사용법:
- * 1. Google Sheets 새로 만들기
- * 2. 시트 탭: word_individual, word_group, word_participants
- * 3. 확장 프로그램 > Apps Script > 이 코드 붙여넣기
- * 4. 배포 > 새 배포 > 웹 앱 > "모든 사용자" 접근
- * 5. URL을 assets/js/config.js 의 sheetsEndpoint 에 입력
+ * 설정: 프로젝트 설정 > 스크립트 속성
+ *   ADMIN_TOKEN = admin 페이지 접속 비밀번호
  */
+
+function getAdminToken_() {
+  return PropertiesService.getScriptProperties().getProperty('ADMIN_TOKEN') || '';
+}
+
+function sheetToRows_(sheet) {
+  if (!sheet || sheet.getLastRow() < 2) return [];
+  var data = sheet.getDataRange().getValues();
+  var headers = data[0];
+  return data.slice(1).map(function (row) {
+    var obj = {};
+    headers.forEach(function (h, i) {
+      obj[h] = row[i];
+    });
+    return obj;
+  });
+}
 
 function doPost(e) {
   try {
-    const data = JSON.parse(e.postData.contents);
-    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    var data = JSON.parse(e.postData.contents);
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
 
     if (data.type === 'individual') {
-      const sheet = ss.getSheetByName('word_individual') || ss.insertSheet('word_individual');
+      var sheet = ss.getSheetByName('word_individual') || ss.insertSheet('word_individual');
       if (sheet.getLastRow() === 0) {
         sheet.appendRow(['접수번호', '제출일시', '이름', '생년월일', '학교', '학년', '학생연락처', '학부모연락처', '이메일', '레벨', '주소']);
       }
@@ -27,16 +40,16 @@ function doPost(e) {
     }
 
     if (data.type === 'group') {
-      const sheet = ss.getSheetByName('word_group') || ss.insertSheet('word_group');
-      if (sheet.getLastRow() === 0) {
-        sheet.appendRow(['접수번호', '제출일시', '단체명', '학원연락처', '학부모연락처', '주소', '인원', '총참가비']);
+      var gSheet = ss.getSheetByName('word_group') || ss.insertSheet('word_group');
+      if (gSheet.getLastRow() === 0) {
+        gSheet.appendRow(['접수번호', '제출일시', '단체명', '학원연락처', '학부모연락처', '주소', '인원', '총참가비']);
       }
-      sheet.appendRow([
+      gSheet.appendRow([
         data.receiptNo, data.submittedAt, data.orgName, data.phoneAcademy,
         data.phoneParent, data.address, data.participantCount, data.totalFee
       ]);
 
-      const pSheet = ss.getSheetByName('word_participants') || ss.insertSheet('word_participants');
+      var pSheet = ss.getSheetByName('word_participants') || ss.insertSheet('word_participants');
       if (pSheet.getLastRow() === 0) {
         pSheet.appendRow(['접수번호', '이름', '학교', '학년', '레벨']);
       }
@@ -45,22 +58,37 @@ function doPost(e) {
       });
     }
 
-    return ContentService
-      .createTextOutput(JSON.stringify({ success: true, receiptNo: data.receiptNo }))
-      .setMimeType(ContentService.MimeType.JSON);
+    return jsonResponse_({ success: true, receiptNo: data.receiptNo });
   } catch (err) {
-    return ContentService
-      .createTextOutput(JSON.stringify({ success: false, error: err.message }))
-      .setMimeType(ContentService.MimeType.JSON);
+    return jsonResponse_({ success: false, error: err.message });
   }
 }
 
 function doGet(e) {
-  if (e.parameter.action === 'check') {
-    // 접수 확인 — 추후 구현
-    return ContentService
-      .createTextOutput(JSON.stringify({ found: false, message: '조회 기능 준비 중' }))
-      .setMimeType(ContentService.MimeType.JSON);
+  var action = e.parameter.action;
+  var token = e.parameter.token || '';
+
+  if (action === 'admin') {
+    if (!getAdminToken_() || token !== getAdminToken_()) {
+      return jsonResponse_({ error: '인증 실패' });
+    }
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    return jsonResponse_({
+      individual: sheetToRows_(ss.getSheetByName('word_individual')),
+      group: sheetToRows_(ss.getSheetByName('word_group')),
+      participants: sheetToRows_(ss.getSheetByName('word_participants')),
+    });
   }
+
+  if (action === 'check') {
+    return jsonResponse_({ found: false, message: '조회 기능 준비 중' });
+  }
+
   return ContentService.createTextOutput('OK');
+}
+
+function jsonResponse_(obj) {
+  return ContentService
+    .createTextOutput(JSON.stringify(obj))
+    .setMimeType(ContentService.MimeType.JSON);
 }

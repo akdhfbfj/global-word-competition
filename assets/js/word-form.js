@@ -7,6 +7,8 @@ function initIndividualForm() {
   if (!form) return;
 
   populateLevels($('#level', form));
+  initBirthDateInput(form);
+  initLevelGuide(form);
   bindFormClearErrors(form);
 
   form.addEventListener('submit', async (e) => {
@@ -262,10 +264,10 @@ function initHomeCards() {
   const feeEl = $('#card-fee');
 
   if (regEl) {
-    regEl.textContent = `${formatDate(sched.registrationStart)} ~ ${formatDate(sched.registrationEnd)}`;
+    regEl.textContent = formatDateRange(sched.registrationStart, sched.registrationEnd);
   }
   if (competitionEl) {
-    competitionEl.textContent = formatDateShort(sched.competitionDate);
+    competitionEl.textContent = formatDateFull(sched.competitionDate);
   }
   if (feeEl) {
     feeEl.textContent = formatCurrency(comp.fee);
@@ -287,18 +289,12 @@ function initHomeLevels() {
   const container = $('#home-level-cards');
   if (!container) return;
 
-  const groups = [
-    { title: 'A 레벨', desc: 'A1 · A2' },
-    { title: 'B 레벨', desc: 'B1 · B2' },
-    { title: 'C 레벨', desc: 'C1 · C2' },
-  ];
-
-  container.innerHTML = groups
+  container.innerHTML = COMPETITIONS.word.levelGroups
     .map(
       (g) => `
-      <div class="card">
+      <div class="card card--center">
         <div class="card__title">${g.title}</div>
-        <div class="card__value">${g.desc}</div>
+        <div class="card__value card__value--desc">${g.desc}</div>
       </div>`
     )
     .join('');
@@ -311,8 +307,8 @@ function initAboutSchedule() {
   const comp = COMPETITIONS.word;
   const s = comp.schedule;
   const rows = [
-    ['접수', `${formatDate(s.registrationStart)} ~ ${formatDate(s.registrationEnd)}`],
-    ['대회', formatDateShort(s.competitionDate)],
+    ['접수', formatDateRange(s.registrationStart, s.registrationEnd)],
+    ['대회', formatDateFull(s.competitionDate)],
     ['진행 방식', comp.format],
   ];
 
