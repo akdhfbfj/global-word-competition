@@ -35,51 +35,50 @@
 
   <main>
     <section class="hero">
-      <div class="hero__globe" aria-hidden="true">
-        <div class="hero__globe-sphere">
+      <div class="container hero__layout">
+        <div class="hero__visual" aria-hidden="true">
           <img
-            src="assets/images/hero-globe.png"
+            src="assets/images/hero-banner.png"
             alt=""
-            class="hero__globe-img"
-            width="420"
-            height="420"
-            loading="lazy"
+            class="hero__banner-img"
+            width="640"
+            height="640"
+            loading="eager"
             decoding="async"
           >
         </div>
-      </div>
-      <div class="container hero__inner">
-        <span class="hero__label" data-site-title-en></span>
-        <h1 class="hero__title" data-site-title></h1>
-        <p class="hero__subtitle">
-          정확한 발음과 풍부한 어휘력으로 글로벌 무대에 도전하세요.<br>
-          CEFR 레벨별로 진행되는 국제 영어 단어 대회입니다.
-        </p>
-        <div class="hero__actions">
-          <a href="apply/individual.html" class="btn btn--gold">개인 신청하기</a>
-          <a href="apply/group.html" class="btn btn--outline" style="color:#fff;border-color:rgba(255,255,255,0.5)">단체 신청하기</a>
-        </div>
-        <div class="countdown" id="hero-countdown">
-          <p class="countdown__label">대회까지</p>
-          <div class="countdown__timer">
-            <div class="countdown__unit">
-              <div class="countdown__digits" id="cd-days"></div>
-              <span class="countdown__unit-label">DAY</span>
-            </div>
-            <span class="countdown__sep">:</span>
-            <div class="countdown__unit">
-              <div class="countdown__digits" id="cd-hours"></div>
-              <span class="countdown__unit-label">HOURS</span>
-            </div>
-            <span class="countdown__sep">:</span>
-            <div class="countdown__unit">
-              <div class="countdown__digits" id="cd-mins"></div>
-              <span class="countdown__unit-label">MINUTES</span>
-            </div>
-            <span class="countdown__sep">:</span>
-            <div class="countdown__unit">
-              <div class="countdown__digits" id="cd-secs"></div>
-              <span class="countdown__unit-label">SECOND</span>
+        <div class="hero__inner">
+          <h1 class="hero__title" data-site-title></h1>
+          <p class="hero__subtitle">
+            정확한 발음과 풍부한 어휘력으로 글로벌 무대에 도전하세요.<br>
+            CEFR 레벨별로 진행되는 국제 영어 단어 대회입니다.
+          </p>
+          <div class="hero__actions">
+            <a href="apply/individual.html" class="btn btn--gold">개인 신청하기</a>
+            <a href="apply/group.html" class="btn btn--outline hero__btn-outline">단체 신청하기</a>
+          </div>
+          <div class="countdown" id="hero-countdown">
+            <p class="countdown__label">대회까지</p>
+            <div class="countdown__timer">
+              <div class="countdown__unit">
+                <div class="countdown__digits" id="cd-days"></div>
+                <span class="countdown__unit-label">DAY</span>
+              </div>
+              <span class="countdown__sep">:</span>
+              <div class="countdown__unit">
+                <div class="countdown__digits" id="cd-hours"></div>
+                <span class="countdown__unit-label">HOURS</span>
+              </div>
+              <span class="countdown__sep">:</span>
+              <div class="countdown__unit">
+                <div class="countdown__digits" id="cd-mins"></div>
+                <span class="countdown__unit-label">MINUTES</span>
+              </div>
+              <span class="countdown__sep">:</span>
+              <div class="countdown__unit">
+                <div class="countdown__digits" id="cd-secs"></div>
+                <span class="countdown__unit-label">SECOND</span>
+              </div>
             </div>
           </div>
         </div>
