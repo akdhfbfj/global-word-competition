@@ -27,12 +27,24 @@ function formatDateShort(dateStr) {
   return `${d.getMonth() + 1}/${d.getDate()}(${days[d.getDay()]})`;
 }
 
-function populateDivisions(selectEl) {
+function populateLevels(selectEl) {
   if (!selectEl) return;
-  const divisions = COMPETITIONS.word.divisions;
+  const levels = COMPETITIONS.word.levels;
   selectEl.innerHTML =
-    '<option value="">부문을 선택하세요</option>' +
-    divisions.map((d) => `<option value="${d.id}">${d.label}</option>`).join('');
+    '<option value="">레벨을 선택하세요</option>' +
+    levels.map((l) => `<option value="${l.id}">${l.label}</option>`).join('');
+}
+
+/** @deprecated populateLevels 사용 */
+function populateDivisions(selectEl) {
+  populateLevels(selectEl);
+}
+
+function formatBankAccount(bank) {
+  if (bank.account) {
+    return `${bank.name} ${bank.account} (${bank.holder})`;
+  }
+  return `${bank.name} 법인 계좌 (${bank.holder})`;
 }
 
 function validateRequired(form) {
@@ -79,7 +91,7 @@ function showSuccess(container, receiptNo) {
       <div class="form-notice">
         <strong>입금 안내</strong><br>
         참가비: ${formatCurrency(comp.fee)} (1인)<br>
-        ${comp.bank.name} ${comp.bank.account} (${comp.bank.holder})<br>
+        ${formatBankAccount(comp.bank)}<br>
         입금자명: 신청 시 입력한 이름(단체: 단체명)<br><br>
         입금 확인 후 2영업일 이내 안내 문자가 발송됩니다.
       </div>
@@ -95,9 +107,11 @@ function initSiteMeta() {
   $$('[data-site-title]').forEach((el) => (el.textContent = comp.title));
   $$('[data-site-title-en]').forEach((el) => (el.textContent = comp.titleEn));
   $$('[data-site-contact]').forEach((el) => (el.textContent = SITE.contact.kakao));
+  $$('[data-site-email]').forEach((el) => (el.textContent = SITE.contact.email));
   $$('[data-site-address]').forEach((el) => (el.textContent = SITE.address));
   $$('[data-site-ceo]').forEach((el) => (el.textContent = SITE.ceo));
   $$('[data-fee]').forEach((el) => (el.textContent = formatCurrency(comp.fee)));
+  $$('[data-bank-info]').forEach((el) => (el.textContent = formatBankAccount(comp.bank)));
 }
 
 function initMobileNav() {

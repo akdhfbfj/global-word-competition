@@ -6,7 +6,7 @@ function initIndividualForm() {
   const form = $('#individual-form');
   if (!form) return;
 
-  populateDivisions($('#division', form));
+  populateLevels($('#level', form));
   bindFormClearErrors(form);
 
   form.addEventListener('submit', async (e) => {
@@ -25,9 +25,8 @@ function initIndividualForm() {
       phoneStudent: $('#phoneStudent', form).value.trim(),
       phoneParent: $('#phoneParent', form).value.trim(),
       email: $('#email', form).value.trim(),
-      division: $('#division', form).value,
+      level: $('#level', form).value,
       address: $('#address', form).value.trim(),
-      coupon: $('#coupon', form)?.value.trim() || '',
     };
 
     try {
@@ -69,7 +68,6 @@ function initGroupForm() {
       phoneAcademy: $('#phoneAcademy', form).value.trim(),
       phoneParent: $('#phoneParent', form).value.trim(),
       address: $('#address', form).value.trim(),
-      coupon: $('#coupon', form)?.value.trim() || '',
       participantCount: participants.length,
       totalFee: participants.length * COMPETITIONS.word.fee,
       participants,
@@ -87,26 +85,85 @@ function initGroupForm() {
   });
 }
 
+function parseCsvParticipants(text) {
+  const lines = text.trim().split(/\r?\n/).filter(Boolean);
+  if (lines.length < 2) return [];
+
+  const header = lines[0].split(',').map((h) => h.trim().replace(/^\uFEFF/, ''));
+  const nameIdx = header.findIndex((h) => /이름|name/i.test(h));
+  const schoolIdx = header.findIndex((h) => /학교|school/i.test(h));
+  const gradeIdx = header.findIndex((h) => /학년|grade/i.test(h));
+  const levelIdx = header.findIndex((h) => /레벨|level|부문/i.test(h));
+
+  if (nameIdx === -1) {
+    throw new Error('CSV 첫 줄에 "이름" 열이 필요합니다.');
+  }
+
+  const levelMap = Object.fromEntries(
+    COMPETITIONS.word.levels.flatMap((l) => [
+      [l.label.toLowerCase(), l.id],
+      [l.id, l.id],
+    ])
+  );
+
+  return lines.slice(1).map((line) => {
+    const cols = line.split(',').map((c) => c.trim());
+    const rawLevel = levelIdx >= 0 ? cols[levelIdx] : '';
+    const levelId = levelMap[rawLevel.toLowerCase()] || rawLevel.toLowerCase();
+    return {
+      name: cols[nameIdx] || '',
+      school: schoolIdx >= 0 ? cols[schoolIdx] : '',
+      grade: gradeIdx >= 0 ? cols[gradeIdx] : '',
+      level: levelId,
+    };
+  }).filter((p) => p.name);
+}
+
 function initParticipantTable() {
   const tbody = $('#participant-tbody');
   const addBtn = $('#add-participant');
   if (!tbody || !addBtn) return;
 
   addBtn.addEventListener('click', () => addParticipantRow());
-  addParticipantRow();
 
   const excelInput = $('#excel-upload');
   if (excelInput) {
-    excelInput.addEventListener('change', () => {
-      alert('엑셀 업로드 기능은 Google Sheets 연동과 함께 구현 예정입니다.\n현재는 아래 표에서 직접 입력해 주세요.');
+    excelInput.addEventListener('change', async () => {
+      const file = excelInput.files?.[0];
+      if (!file) return;
+
+      const ext = file.name.split('.').pop().toLowerCase();
+      if (ext === 'xlsx' || ext === 'xls') {
+        alert('엑셀(.xlsx) 파일은 CSV로 저장 후 업로드해 주세요.\n엑셀 → 다른 이름으로 저장 → CSV UTF-8');
+        excelInput.value = '';
+        return;
+      }
+
+      try {
+        const text = await file.text();
+        const participants = parseCsvParticipants(text);
+        if (participants.length === 0) {
+          alert('참가자 데이터를 찾을 수 없습니다. 양식을 확인해 주세요.');
+          return;
+        }
+        tbody.innerHTML = '';
+        participants.forEach((p) => addParticipantRow(p));
+        alert(`${participants.length}명의 참가자를 불러왔습니다.`);
+      } catch (err) {
+        alert(err.message || '파일을 읽는 중 오류가 발생했습니다.');
+      }
       excelInput.value = '';
     });
+  }
+
+  if ($$('#participant-tbody tr').length === 0) {
+    addParticipantRow();
   }
 }
 
 function addParticipantRow(data = {}) {
   const tbody = $('#participant-tbody');
-  const divisions = COMPETITIONS.word.divisions;
+  const levels = COMPETITIONS.word.levels;
   const row = document.createElement('tr');
 
   row.innerHTML = `
@@ -114,9 +171,9 @@ function addParticipantRow(data = {}) {
     <td><input type="text" name="pSchool" value="${data.school || ''}" placeholder="학교"></td>
     <td><input type="text" name="pGrade" value="${data.grade || ''}" placeholder="학년"></td>
     <td>
-      <select name="pDivision">
-        <option value="">부문</option>
-        ${divisions.map((d) => `<option value="${d.id}" ${data.division === d.id ? 'selected' : ''}>${d.label}</option>`).join('')}
+      <select name="pLevel">
+        <option value="">레벨</option>
+        ${levels.map((l) => `<option value="${l.id}" ${data.level === l.id ? 'selected' : ''}>${l.label}</option>`).join('')}
       </select>
     </td>
     <td><button type="button" class="btn btn--sm btn--outline remove-row">삭제</button></td>
@@ -146,7 +203,7 @@ function collectParticipants() {
       name: $('input[name="pName"]', row)?.value.trim(),
       school: $('input[name="pSchool"]', row)?.value.trim(),
       grade: $('input[name="pGrade"]', row)?.value.trim(),
-      division: $('select[name="pDivision"]', row)?.value,
+      level: $('select[name="pLevel"]', row)?.value,
     }))
     .filter((p) => p.name);
 }
@@ -226,14 +283,37 @@ function initHomeCards() {
   }
 }
 
+function initHomeLevels() {
+  const container = $('#home-level-cards');
+  if (!container) return;
+
+  const groups = [
+    { title: 'A 레벨', desc: 'A1 · A2' },
+    { title: 'B 레벨', desc: 'B1 · B2' },
+    { title: 'C 레벨', desc: 'C1 · C2' },
+  ];
+
+  container.innerHTML = groups
+    .map(
+      (g) => `
+      <div class="card">
+        <div class="card__title">${g.title}</div>
+        <div class="card__value">${g.desc}</div>
+      </div>`
+    )
+    .join('');
+}
+
 function initAboutSchedule() {
   const tbody = $('#schedule-table-body');
   if (!tbody) return;
 
-  const s = COMPETITIONS.word.schedule;
+  const comp = COMPETITIONS.word;
+  const s = comp.schedule;
   const rows = [
     ['접수', `${formatDate(s.registrationStart)} ~ ${formatDate(s.registrationEnd)}`],
     ['대회', formatDateShort(s.competitionDate)],
+    ['진행 방식', comp.format],
   ];
 
   tbody.innerHTML = rows
@@ -246,5 +326,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initGroupForm();
   initCheckForm();
   initHomeCards();
+  initHomeLevels();
   initAboutSchedule();
 });
