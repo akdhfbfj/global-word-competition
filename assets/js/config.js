@@ -31,12 +31,12 @@ const COMPETITIONS = {
       holder: '(주)글로벌영어교육아카데미',
     },
     levels: [
-      { id: 'a1', label: 'A1' },
-      { id: 'a2', label: 'A2' },
-      { id: 'b1', label: 'B1' },
-      { id: 'b2', label: 'B2' },
-      { id: 'c1', label: 'C1' },
-      { id: 'c2', label: 'C2' },
+      { id: 'a1', label: 'A1', desc: '입문 — 기본 인사·숫자·일상 단어 수준' },
+      { id: 'a2', label: 'A2', desc: '초급 — 간단한 문장과 기본 어휘 이해·활용' },
+      { id: 'b1', label: 'B1', desc: '중급 — 일상·학습 주제의 단어 이해와 발음' },
+      { id: 'b2', label: 'B2', desc: '중상급 — 다양한 주제의 어휘·문맥 활용' },
+      { id: 'c1', label: 'C1', desc: '고급 — 풍부한 어휘와 정확한 발음·표현' },
+      { id: 'c2', label: 'C2', desc: '최고급 — 원어민에 가까운 어휘력·유창성' },
     ],
     levelGroups: [
       {

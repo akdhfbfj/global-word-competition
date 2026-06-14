@@ -52,7 +52,31 @@ function populateLevels(selectEl) {
   const levels = COMPETITIONS.word.levels;
   selectEl.innerHTML =
     '<option value="">레벨을 선택하세요</option>' +
-    levels.map((l) => `<option value="${l.id}">${l.label}</option>`).join('');
+    levels
+      .map((l) => `<option value="${l.id}">${l.label} — ${l.desc || ''}</option>`)
+      .join('');
+}
+
+function formatPhoneNumber(value) {
+  const digits = value.replace(/\D/g, '').slice(0, 11);
+  if (digits.length <= 3) return digits;
+  if (digits.length <= 7) return `${digits.slice(0, 3)}-${digits.slice(3)}`;
+  return `${digits.slice(0, 3)}-${digits.slice(3, 7)}-${digits.slice(7)}`;
+}
+
+function initPhoneInput(inputEl) {
+  if (!inputEl) return;
+  inputEl.addEventListener('input', () => {
+    const pos = inputEl.selectionStart;
+    const before = inputEl.value.length;
+    inputEl.value = formatPhoneNumber(inputEl.value);
+    const after = inputEl.value.length;
+    inputEl.setSelectionRange(pos + (after - before), pos + (after - before));
+  });
+}
+
+function initPhoneInputs(form) {
+  $$('input[type="tel"]', form).forEach(initPhoneInput);
 }
 
 /** @deprecated populateLevels 사용 */
@@ -160,29 +184,18 @@ function initLevelGuide(form) {
   if (!select || !guideEl) return;
 
   const comp = COMPETITIONS.word;
-  const groupMap = {
-    a1: 'A', a2: 'A', b1: 'B', b2: 'B', c1: 'C', c2: 'C',
-  };
 
   function renderGuide() {
-    const key = groupMap[select.value];
-    const group = comp.levelGroups.find((g) => g.key === key);
-    if (!group) {
-      guideEl.innerHTML = comp.levelGroups
-        .map(
-          (g) => `
-          <div class="level-guide__item">
-            <strong>${g.title}</strong>
-            <p>${g.desc}</p>
-          </div>`
-        )
-        .join('');
+    const level = comp.levels.find((l) => l.id === select.value);
+    if (!level) {
+      guideEl.hidden = true;
       return;
     }
+    guideEl.hidden = false;
     guideEl.innerHTML = `
       <div class="level-guide__item level-guide__item--active">
-        <strong>${group.title}</strong>
-        <p>${group.desc}</p>
+        <strong>${level.label}</strong>
+        <p>${level.desc}</p>
       </div>`;
   }
 
